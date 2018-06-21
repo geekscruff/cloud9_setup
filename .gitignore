@@ -1,0 +1,26 @@
+# Mac
+.DS_Store
+# Windows
+Thumbs.db
+# JetBrains
+.idea/
+# VSCode
+.vscode/
+# vi
+*~
+# General
+log/
+*.log
+# env
+.env
+.rbenv-vars
+# tmp
+tmp/
+# vagrant
+.vagrant/
+# private keys
+*.pem
+ssh/*
+*/ssh
+*ssh*
+fits*
