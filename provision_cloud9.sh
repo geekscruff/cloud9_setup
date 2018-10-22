@@ -2,6 +2,7 @@
 
 FITS="1.2.0"
 RAILS="5.1.4"
+LIBREOFFICE="6.0.5"
 
 if [ ! fits-$FITS.zip]; then
  echo "Add fits-$FITS.zip to the folder"
@@ -64,9 +65,9 @@ then
     mkdir tmp
     cd tmp
     yes | sudo yum install -y dbus-glib cairo cups
-    wget https://mirrors.ukfast.co.uk/sites/documentfoundation.org/tdf/libreoffice/stable/6.0.4/rpm/x86_64/LibreOffice_6.0.4_Linux_x86-64_rpm.tar.gz
-    tar -xvf LibreOffice_6.0.4_Linux_x86-64_rpm.tar.gz
-    cd LibreOffice_6.0.4.2_Linux_x86-64_rpm/RPMS
+    wget https://mirrors.ukfast.co.uk/sites/documentfoundation.org/tdf/libreoffice/stable/$LIBREOFFICE/rpm/x86_64/LibreOffice_$LIBREOFFICE_Linux_x86-64_rpm.tar.gz
+    tar -xvf LibreOffice_$LIBREOFFICE_Linux_x86-64_rpm.tar.gz
+    cd LibreOffice_$LIBREOFFICE.2_Linux_x86-64_rpm/RPMS
     yes | sudo yum localinstall *.rpm # --skip-broken
     sudo ln -s /opt/libreoffice6.0/program/soffice /usr/bin/soffice
     cd ..
@@ -97,7 +98,7 @@ then
   # do both shortcuts
   sudo ln -s /usr/local/fits/fits.sh /usr/bin/fits
   sudo ln -s /usr/local/fits/fits.sh /usr/bin/fits.sh
-  sudo chmod -R 777 /usr/local/fits # TODO don't use 777!
+  sudo chmod -R 755 /usr/local/fits 
 else
   echo 'Fits is already here, moving on ... '
 fi
@@ -139,7 +140,9 @@ yes | sudo yum install -y postgresql-server postgresql-contrib postgresql-devel
 
 sudo service postgresql initdb
 # Use MD5 Authentication
+# see https://dba.stackexchange.com/questions/83164/remove-password-requirement-for-user-postgres
 sudo sed -i -e 's/ident$/md5/' -e 's/peer$/md5/' /var/lib/pgsql9/data/pg_hba.conf
+sudo sed -i -e 's/ident$/trust/' -e 's/peer$/trust/' /var/lib/pgsql9/data/pg_hba.conf
 #start
 sudo /sbin/chkconfig --levels 235 postgresql on
 sudo service postgresql start
@@ -148,3 +151,6 @@ sudo psql -U postgres -d postgres -c "CREATE USER \"ec2-user\" WITH SUPERUSER;"
 
 gem uninstall rails -v 5.2.0
 gem install  rails -v $RAILS
+
+# headless chrome via https://intoli.com/blog/installing-google-chrome-on-centos/
+curl https://intoli.com/install-google-chrome.sh | bash
