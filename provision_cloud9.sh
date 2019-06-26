@@ -117,7 +117,7 @@ yes | sudo yum install -y nodejs
 ##############################
 # See https://support.rackspace.com/how-to/install-epel-and-additional-repositories-on-centos-and-red-hat/
 
-yes | sudo sudo yum install -y redis
+yes | sudo yum install -y redis
 
 ##################################
 # Start Redis and enable at boot #
@@ -154,3 +154,13 @@ gem install  rails -v $RAILS
 
 # headless chrome via https://intoli.com/blog/installing-google-chrome-on-centos/
 curl https://intoli.com/install-google-chrome.sh | bash
+
+# docker I think
+
+curl -sSL https://get.docker.com/ | sh
+sudo systemctl enable docker && sudo systemctl start docker
+
+sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
+sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
+sudo chmod +x /usr/bin/docker-compose
+
